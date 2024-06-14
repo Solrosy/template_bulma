@@ -1,0 +1,185 @@
+// // Rose Bliss color variables (Revised)
+// $link: hsl(340, 100%, 74%);
+// $primary: hsl(340, 100%, 66%);
+// $success: hsl(134, 61%, 50%);
+// $warning: hsl(48, 100%, 70%);
+// $warning-dark: hsl(48, 100%, 40%); // Darker shade of warning color
+// $danger: hsl(350, 100%, 66%);
+// $white: hsl(0, 0%, 100%);
+// $light: hsl(340, 100%, 97%);
+// $dark: hsl(25, 65%, 39%);
+// $black: hsl(0, 0%, 0%);
+// $info: hsl(195, 65%, 70%);
+// $grey-dark: hsl(0, 0%, 16%);
+// $grey-light: hsl(0, 0%, 98%);
+// $background: hsl(355, 58%, 96%); // Tinted background color
+
+
+
+
+
+// Rose Bliss color variables (5% Lighter)
+$link: hsl(264, 98%, 82%);
+$primary: hsl(325, 100%, 71%);
+$success: hsl(111, 77%, 69%);
+$warning: hsl(48, 100%, 75%);
+$warning-dark: hsl(48, 100%, 45%); // Darker shade of warning color
+$danger: hsl(350, 100%, 71%);
+$white: hsl(0, 0%, 100%);
+$light: hsl(340, 100%, 97%);
+$dark: hsl(25, 65%, 44%);
+$black: hsl(0, 0%, 0%);
+$info: rgb(150, 212, 233);
+$grey-dark: hsl(0, 0%, 21%);
+$grey-light: hsl(0, 0%, 98%);
+$background: hsl(252, 22%, 91%); // Tinted background color
+$link-text: hsl(340, 100%, 66%); // Color for the a tags
+
+@use "sass" with (
+  $family-primary: '"Nunito", sans-serif',
+  $primary: $primary,
+  $link: $link,
+  $success: $success,
+  $warning: $warning,
+  $danger: $danger,
+  $white: $white,
+  $light: $light,
+  $dark: $dark,
+  $black: $black,
+  $info: $info,
+  $grey-dark: $grey-dark,
+  $grey-light: $grey-light,
+  $background: $background
+);
+
+@forward "sass/themes";
+
+body {
+  background-color: $background;
+  $lightened-1: mix($link, white, 25%);
+  $lightened-2: mix($background, white, 10%);
+  background-image: linear-gradient(0deg, $lightened-1 0%, $lightened-2 100%);
+}
+
+// Define your custom shadow
+$custom-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+// Define your custom border color with transparency
+$border-color: rgba(185, 190, 202, 0.5);
+
+// Override Bulma's variables
+.card, .box {
+  border: 1px solid $border-color;
+  box-shadow: $custom-box-shadow;
+}
+
+// Import the Google Font
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
+
+// Define a mixin to create a shadow with the button color
+@mixin button-shadow($color) {
+  @if $color == $warning {
+    box-shadow: 0 4px 8px rgba($warning-dark, 0.4), 0 2px 4px rgba($warning-dark, 0.2); // Darker yellow shadow for warning buttons
+  } @else {
+    box-shadow: 0 4px 8px rgba($color, 0.4), 0 2px 4px rgba($color, 0.2); // Heavier shadow for all other buttons
+  }
+}
+
+// Define a mixin to create button styles including hover effects
+@mixin custom-button-styles($color) {
+  @include button-shadow($color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, outline 0.2s ease;
+
+  &:not(.is-outlined):hover {
+    //background: linear-gradient(to top left, $color, lighten($color, 5%));
+    outline: 1px solid rgba($color, 0.3); // Lighter outline color
+  }
+
+  &:hover {
+    transform: scale(1.01) translateY(-1px);
+    @if $color == $warning {
+      box-shadow: 0 6px 10px rgba($warning-dark, 0.3), 0 3px 6px rgba($warning-dark, 0.15); // Darker yellow hover shadow for warning buttons
+    } @else {
+      box-shadow: 0 6px 10px rgba($color, 0.3), 0 3px 6px rgba($color, 0.2); // Heavier hover shadow for all other buttons
+    }
+  }
+}
+
+// Define a mixin to create link styles including hover effects
+@mixin custom-link-styles($color) {
+  color: $color;
+  text-decoration: none;
+  transition: text-decoration 0.2s ease, font-weight 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    text-decoration: underline;
+    color: darken($color, 10%);
+  }
+}
+
+// Apply styles to all standard Bulma button colors
+.button.is-white {
+  @include custom-button-styles($white);
+}
+
+.button.is-light {
+  @include custom-button-styles($light);
+}
+
+.button.is-dark {
+  @include custom-button-styles($dark);
+}
+
+.button.is-black {
+  @include custom-button-styles($black);
+}
+
+.button.is-primary {
+  @include custom-button-styles($primary);
+}
+
+.button.is-link {
+  @include custom-button-styles($link);
+}
+
+.button.is-info {
+  @include custom-button-styles($info);
+}
+
+.button.is-success {
+  @include custom-button-styles($success);
+}
+
+.button.is-warning {
+  @include custom-button-styles($warning);
+}
+
+.button.is-danger {
+  @include custom-button-styles($danger);
+}
+
+// Apply styles to normal links, excluding those with class "button"
+a:not(.button) {
+  @include custom-link-styles($link-text);
+}
+
+// Ensure transitions apply correctly to buttons
+.button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, outline 0.2s ease; // background 0.2s ease,
+
+  &:not(.is-outlined):not(.is-small):not(.is-medium):not(.is-large):not(.is-normal):hover {
+    outline: 1px solid rgba($primary, 0.1); // Add lighter outline in primary color
+  }
+
+  &.is-small,
+  &.is-medium,
+  &.is-large,
+  &.is-normal,
+  &.is-rounded {
+    transition: transform 0.2s ease, box-shadow 0.2s ease; // background 0.2s ease;
+
+    &:hover {
+      transform: scale(1.01) translateY(-1px);
+    }
+  }
+}
